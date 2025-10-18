@@ -1,5 +1,8 @@
+from game import Game
+
+
 def main():
-    print("Hello from breakout!")
+    Game().run()
 
 
 if __name__ == "__main__":
