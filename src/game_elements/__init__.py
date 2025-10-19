@@ -10,14 +10,16 @@ class GameObject(ABC, pygame.sprite.Sprite):
         self,
         width: int,
         height: int,
+        pos: pygame.Vector2,
+        vel: pygame.Vector2,
         color: pygame.Color = pygame.Color("white"),
-        pos: pygame.Vector2 = pygame.Vector2(0, 0),
     ):
         super().__init__(*self.groups)
         self.image = pygame.Surface((width, height))
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.pos: pygame.Vector2 = pos
+        self.vel: pygame.Vector2 = vel
 
     @abstractmethod
     def update(self, delta: float) -> None:

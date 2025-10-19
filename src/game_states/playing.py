@@ -1,5 +1,7 @@
 import pygame
 
+from game_elements.ball import Ball
+from game_elements.block import Block
 from game_elements.player import Player
 from game_states import GameState
 
@@ -14,7 +16,11 @@ class Playing(GameState):
         self.blocks = pygame.sprite.Group()
 
         Player.groups = (self.updatable, self.drawable, self.player)
+        Ball.groups = (self.updatable, self.drawable, self.balls)
+        Block.groups = (self.updatable, self.drawable, self.blocks)
+        
         Player()
+        Ball()
 
     def _handle_event(self, event: pygame.event.Event) -> None:
         pass

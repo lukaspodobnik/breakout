@@ -16,7 +16,7 @@ class Game:
 
     def run(self) -> None:
         self.running = True
-        delta = 0.0
+        delta = 0
         while self.running:
             self.state.handle_events()
             self.state.update(delta)

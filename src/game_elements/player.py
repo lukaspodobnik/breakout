@@ -5,11 +5,13 @@ from game_elements import GameObject
 
 
 class Player(GameObject):
-    speed = 300
-
     def __init__(self):
-        super().__init__(width=60, height=10)
-        self.pos.update(SCREEN_WIDTH // 2 - self.rect.width // 2, SCREEN_HEIGHT - 50)
+        super().__init__(
+            width=60,
+            height=10,
+            pos=pygame.Vector2(SCREEN_WIDTH // 2 - 60 // 2, SCREEN_HEIGHT - 50),
+            vel=pygame.Vector2(300, 0),
+        )
 
     def update(self, delta: float) -> None:
         direction = 0
@@ -19,5 +21,5 @@ class Player(GameObject):
         if pressed[pygame.K_d]:
             direction += 1
 
-        self.pos += pygame.Vector2(1, 0) * self.speed * direction * delta
+        self.pos += self.vel * direction * delta
         self.rect.topleft = self.pos
