@@ -12,3 +12,6 @@ class Ball(GameObject):
     def update(self, delta):
         self.pos += self.vel * delta
         self.rect.topleft = self.pos
+
+    def bounce_up(self):
+        self.vel.y *= -1

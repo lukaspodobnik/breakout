@@ -16,10 +16,18 @@ class Player(GameObject):
     def update(self, delta: float) -> None:
         direction = 0
         pressed = pygame.key.get_pressed()
+
         if pressed[pygame.K_a]:
             direction -= 1
         if pressed[pygame.K_d]:
             direction += 1
 
         self.pos += self.vel * direction * delta
+        self.clamp()
         self.rect.topleft = self.pos
+
+    def clamp(self):
+        if self.pos.x < 0:
+            self.pos.x = 0
+        elif self.pos.x > SCREEN_WIDTH - self.rect.width:
+            self.pos.x = SCREEN_WIDTH - self.rect.width
