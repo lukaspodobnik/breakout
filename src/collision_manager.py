@@ -1,16 +1,23 @@
 import pygame
 
+from game_elements.ball import Ball
+from game_elements.block import Block
+from game_elements.player import Player
+
 
 class CollisionManager:
     def __init__(self, player, balls, blocks):
-        self.player: pygame.sprite.GroupSingle = player
-        self.balls: pygame.sprite.Group = balls
-        self.blocks: pygame.sprite.Group = blocks
+        self.player: pygame.sprite.GroupSingle[Player] = player
+        self.balls: pygame.sprite.Group[Ball] = balls
+        self.blocks: pygame.sprite.Group[Block] = blocks
 
     def update(self):
         self._handle_player_balls()
 
     def _handle_player_balls(self):
-        collisions = pygame.sprite.spritecollide(self.player.sprite, self.balls, False)
+        player = self.player.sprite
+        collisions = pygame.sprite.spritecollide(player, self.balls, False)
         for ball in collisions:
-            ball.bounce_up()
+            offset = ball.rect.centerx - player.rect.centerx
+            direction_x = offset / (player.rect.width // 2)
+            ball.bounce_up(direction_x)
