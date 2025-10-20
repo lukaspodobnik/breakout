@@ -10,8 +10,8 @@ class GameObject(ABC, pygame.sprite.Sprite):
         self,
         width: int,
         height: int,
-        pos: pygame.Vector2,
-        vel: pygame.Vector2,
+        pos: pygame.Vector2 = None,
+        vel: pygame.Vector2 = None,
         color: pygame.Color = pygame.Color("white"),
     ):
         super().__init__(*self.groups)

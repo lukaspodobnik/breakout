@@ -24,6 +24,8 @@ class Playing(GameState):
 
         Player()
         Ball()
+        for i in range(10):
+            Block(pos_x=(i * 25), pos_y=10)
 
     def _handle_event(self, event: pygame.event.Event) -> None:
         pass

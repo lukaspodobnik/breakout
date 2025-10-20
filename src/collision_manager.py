@@ -13,6 +13,7 @@ class CollisionManager:
 
     def update(self):
         self._handle_player_balls()
+        self._handle_blocks_balls()
 
     def _handle_player_balls(self):
         player = self.player.sprite
@@ -21,3 +22,8 @@ class CollisionManager:
             offset = ball.rect.centerx - player.rect.centerx
             direction_x = offset / (player.rect.width // 2)
             ball.bounce_up(direction_x)
+
+    def _handle_blocks_balls(self):
+        collisions = pygame.sprite.groupcollide(self.blocks, self.balls, True, False)
+        for ball, block in collisions.items():
+            pass

@@ -44,6 +44,7 @@ class Game:
                     f"handle={sum_handle / frame_count * 1000:.2f}ms  "
                     f"update={sum_update / frame_count * 1000:.2f}ms  "
                     f"draw={sum_draw / frame_count * 1000:.2f}ms "
+                    f"combined={(sum_handle + sum_update + sum_draw) / frame_count * 1000:.2f}ms "
                     f"FPS: {self.clock.get_fps():.1f}"
                 )
                 frame_count = sum_handle = sum_update = sum_draw = 0

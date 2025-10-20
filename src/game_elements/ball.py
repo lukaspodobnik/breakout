@@ -17,6 +17,8 @@ class Ball(GameObject):
 
         if self.pos.x < 0 or self.pos.x > SCREEN_WIDTH - self.rect.width:
             self.vel.x *= -1
+        if self.pos.y < 0:
+            self.vel.y *= -1
 
     def bounce_up(self, direction_x):
         self.vel.x = direction_x * 200
