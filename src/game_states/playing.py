@@ -1,10 +1,11 @@
 import pygame
 
-from collision_manager import CollisionManager
 from game_elements.ball import Ball
 from game_elements.block import Block
 from game_elements.player import Player
 from game_states import GameState
+from systems.collision_manager import CollisionManager
+from systems.level_manager import LevelManager
 
 
 class Playing(GameState):
@@ -17,6 +18,7 @@ class Playing(GameState):
         self.blocks = pygame.sprite.Group()
 
         self.collision_manager = CollisionManager(self.player, self.balls, self.blocks)
+        self.level_manager = LevelManager()
 
         Player.groups = (self.updatable, self.drawable, self.player)
         Ball.groups = (self.updatable, self.drawable, self.balls)
@@ -33,6 +35,7 @@ class Playing(GameState):
     def update(self, delta: int) -> None:
         self.updatable.update(delta)
         self.collision_manager.update()
+        self.level_manager.update(delta)
 
     def _draw(self, screen: pygame.Surface) -> None:
         self.drawable.draw(screen)
