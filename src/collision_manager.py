@@ -17,13 +17,15 @@ class CollisionManager:
 
     def _handle_player_balls(self):
         player = self.player.sprite
-        collisions = pygame.sprite.spritecollide(player, self.balls, False)
+        collisions: list[Ball] = pygame.sprite.spritecollide(player, self.balls, False)
         for ball in collisions:
-            offset = ball.rect.centerx - player.rect.centerx
-            direction_x = offset / (player.rect.width // 2)
-            ball.bounce_up(direction_x)
+            if ball.vel.y > 0:
+                ball.bounce_from_player(player.rect)
 
     def _handle_blocks_balls(self):
-        collisions = pygame.sprite.groupcollide(self.blocks, self.balls, True, False)
-        for ball, block in collisions.items():
-            pass
+        collisions: dict[Ball, list[Block]] = pygame.sprite.groupcollide(
+            self.balls, self.blocks, False, True
+        )
+        for ball, blocks in collisions.items():
+            for block in blocks:
+                ball.bounce_from_block(block.rect)
