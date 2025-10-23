@@ -24,3 +24,9 @@ class GameObject(ABC, pygame.sprite.Sprite):
     @abstractmethod
     def update(self, delta: float) -> None:
         pass
+
+
+class DamageSource(ABC):
+    @abstractmethod
+    def get_damage() -> int:
+        pass

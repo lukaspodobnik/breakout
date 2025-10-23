@@ -1,6 +1,7 @@
 import pygame
 
 from config import (
+    DEATH,
     PLAYER_HEIGHT,
     PLAYER_SPEED,
     PLAYER_WIDTH,
@@ -8,6 +9,7 @@ from config import (
     SCREEN_WIDTH,
 )
 from game_elements import GameObject
+from game_elements.player.damage_zone import DamageZone
 
 
 class Player(GameObject):
@@ -18,14 +20,17 @@ class Player(GameObject):
             pos=pygame.Vector2((SCREEN_WIDTH - PLAYER_WIDTH) // 2, SCREEN_HEIGHT - 50),
             vel=pygame.Vector2(PLAYER_SPEED, 0),
         )
+        self.damage_zone = DamageZone(self.apply_damage)
+        self.hp = 20
+        self.exp = 0
 
-    def update(self, delta: float) -> None:
+    def update(self, delta):
         direction = 0
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_a]:
+        if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
             direction -= 1
-        if pressed[pygame.K_d]:
+        if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
             direction += 1
 
         self.pos += self.vel * direction * delta
@@ -37,3 +42,8 @@ class Player(GameObject):
             self.pos.x = 0
         elif self.pos.x > SCREEN_WIDTH - self.rect.width:
             self.pos.x = SCREEN_WIDTH - self.rect.width
+
+    def apply_damage(self, damage: int) -> None:
+        self.hp -= damage
+        if self.hp <= 0:
+            pygame.event.post(pygame.event.Event(DEATH))

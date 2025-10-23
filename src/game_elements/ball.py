@@ -1,21 +1,28 @@
 import pygame
 
-from config import BALL_SIZE, BALL_SPEED, MAX_ANGLE, SCREEN_WIDTH
-from game_elements import GameObject
+from config import (
+    BALL_SIZE,
+    BALL_SPEED,
+    MAX_ANGLE,
+    RESPAWN_BALL,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
+from game_elements import DamageSource, GameObject
 
 
-class Ball(GameObject):
+class Ball(GameObject, DamageSource):
     sounds: dict[str, pygame.mixer.Sound] = {}
 
     def __init__(self):
         super().__init__(
             width=BALL_SIZE,
             height=BALL_SIZE,
-            pos=pygame.Vector2(0, 0),
+            pos=pygame.Vector2((SCREEN_WIDTH - BALL_SIZE) // 2, SCREEN_HEIGHT // 2),
             vel=pygame.Vector2(0, BALL_SPEED),
         )
-        self.pos.update(200, 0)
         self.prev_rect = self.rect.copy()
+        self.damage = 10
 
     def update(self, delta):
         self.prev_rect = self.rect.copy()
@@ -52,3 +59,7 @@ class Ball(GameObject):
             self.rect.top = rect.bottom
 
         self.sounds["block_collision"].play()
+
+    def get_damage(self) -> int:
+        pygame.time.set_timer(pygame.event.Event(RESPAWN_BALL), 2000, loops=1)
+        return self.damage
