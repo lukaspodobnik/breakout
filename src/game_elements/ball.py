@@ -1,13 +1,16 @@
 import pygame
 
-from config import SCREEN_WIDTH
+from config import BALL_SIZE, BALL_SPEED, SCREEN_WIDTH, MAX_ANGLE
 from game_elements import GameObject
 
 
 class Ball(GameObject):
     def __init__(self):
         super().__init__(
-            width=10, height=10, pos=pygame.Vector2(0, 0), vel=pygame.Vector2(0, 300)
+            width=BALL_SIZE,
+            height=BALL_SIZE,
+            pos=pygame.Vector2(0, 0),
+            vel=pygame.Vector2(0, BALL_SPEED),
         )
         self.pos.update(200, 0)
         self.prev_rect = self.rect.copy()
@@ -26,7 +29,7 @@ class Ball(GameObject):
     def bounce_from_player(self, rect: pygame.Rect):
         offset = self.rect.centerx - rect.centerx
         direction_x = offset / (rect.width // 2)
-        self.vel.x = direction_x * 200
+        self.vel.x = direction_x * MAX_ANGLE
         self.vel.y *= -1
 
     def bounce_from_block(self, rect: pygame.Rect):

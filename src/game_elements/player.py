@@ -1,16 +1,22 @@
 import pygame
 
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
+from config import (
+    PLAYER_HEIGHT,
+    PLAYER_SPEED,
+    PLAYER_WIDTH,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
 from game_elements import GameObject
 
 
 class Player(GameObject):
     def __init__(self):
         super().__init__(
-            width=60,
-            height=10,
-            pos=pygame.Vector2(SCREEN_WIDTH // 2 - 60 // 2, SCREEN_HEIGHT - 50),
-            vel=pygame.Vector2(300, 0),
+            width=PLAYER_WIDTH,
+            height=PLAYER_HEIGHT,
+            pos=pygame.Vector2((SCREEN_WIDTH - PLAYER_WIDTH) // 2, SCREEN_HEIGHT - 50),
+            vel=pygame.Vector2(PLAYER_SPEED, 0),
         )
 
     def update(self, delta: float) -> None:

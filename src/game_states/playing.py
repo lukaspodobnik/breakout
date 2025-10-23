@@ -26,8 +26,8 @@ class Playing(GameState):
 
         Player()
         Ball()
-        for i in range(10):
-            Block(pos_x=(i * 25), pos_y=10)
+        self.level_manager.set_level("001_level.json")
+        self.level_manager.start()
 
     def _handle_event(self, event: pygame.event.Event) -> None:
         pass

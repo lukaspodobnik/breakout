@@ -1,20 +1,23 @@
+import json
+
+from config import LEVELS_DIR
 from systems.spawner import Spawner
 
 
 class LevelManager:
     def __init__(self):
-        self.level: str = None
+        self.level: str = ""
+        self.events: list[dict] = []
         self.time: float = 0.0
-        self.events: list[dict] = None
-        self.spawner: Spawner = None
+        self.spawner: Spawner = Spawner()
         self.running: bool = False
 
     def update(self, delta):
         if not self.running:
             return
 
-        self.timer += delta
-        while self.time >= self.events[0]["time"]:
+        self.time += delta
+        while len(self.events) > 0 and self.time >= self.events[0]["time"]:
             event = self.events.pop(0)
             self.spawner.spawn_structure(
                 name=event["structure"], position=event["position"]
@@ -26,5 +29,10 @@ class LevelManager:
     def stop(self):
         self.running = False
 
-    def set_level(self, level):
-        pass
+    def set_level(self, file_name):
+        with open(LEVELS_DIR / file_name, "r") as f:
+            data = json.load(f)
+
+        self.level = data["name"]
+        self.events = sorted(data["events"], key=lambda e: e["time"])
+        self.time = 0.0
