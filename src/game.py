@@ -2,21 +2,17 @@ import time
 
 import pygame
 
-from config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
-from game_states import GameState
+from config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
 from game_states.playing import Playing
 
 
 class Game:
     def __init__(self):
-        pygame.init()
-        pygame.display.set_caption("Breakout")
-        self.screen: pygame.Surface = pygame.display.set_mode(
-            (SCREEN_WIDTH, SCREEN_HEIGHT)
-        )
-        self.clock: pygame.time.Clock = pygame.time.Clock()
-        self.running: bool = False
-        self.state: GameState = Playing(self.stop)
+        pygame.display.set_caption(TITLE)
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.clock = pygame.time.Clock()
+        self.running = False
+        self.state = Playing(self.stop)
 
     def run(self) -> None:
         frame_count = sum_handle = sum_update = sum_draw = 0

@@ -1,10 +1,12 @@
 import pygame
 
-from config import BALL_SIZE, BALL_SPEED, SCREEN_WIDTH, MAX_ANGLE
+from config import BALL_SIZE, BALL_SPEED, MAX_ANGLE, SCREEN_WIDTH
 from game_elements import GameObject
 
 
 class Ball(GameObject):
+    sounds: dict[str, pygame.mixer.Sound] = {}
+
     def __init__(self):
         super().__init__(
             width=BALL_SIZE,
@@ -48,3 +50,5 @@ class Ball(GameObject):
         elif self.prev_rect.top >= rect.bottom and self.rect.top < rect.bottom:
             self.vel.y *= -1
             self.rect.top = rect.bottom
+
+        self.sounds["block_collision"].play()

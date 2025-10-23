@@ -1,10 +1,14 @@
 from utils.resource_path import get_resource_path
 
+TITLE = "Breakout"
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 FPS = 60
 
-LEVELS_DIR = get_resource_path("assets/levels")
+ASSETS_DIR = get_resource_path("assets")
+LEVELS_DIR = get_resource_path(ASSETS_DIR / "levels")
+SOUNDS_DIR = get_resource_path(ASSETS_DIR / "sounds")
 
 PLAYER_SPEED = 400
 PLAYER_WIDTH = 80
