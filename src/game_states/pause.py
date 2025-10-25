@@ -2,16 +2,16 @@ from game_states import GameState
 
 
 class Pause(GameState):
-    def enter(self):
+    def _enter(self):
         pass
 
-    def exit(self):
+    def _exit(self):
         pass
 
     def _handle_event(self, event):
         pass
 
-    def update(self, delta):
+    def _update(self, delta):
         pass
 
     def draw(self, screen):
