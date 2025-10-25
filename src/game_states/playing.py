@@ -11,8 +11,7 @@ from systems.level_manager import LevelManager
 
 
 class Playing(GameState):
-    def __init__(self, stop_game):
-        super().__init__(stop_game)
+    def __init__(self):
         self.updatable = pygame.sprite.Group()
         self.drawable = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
@@ -31,12 +30,16 @@ class Playing(GameState):
         Block.groups = (self.updatable, self.drawable, self.blocks)
         DamageZone.groups = (self.damage_zone,)
 
+    def enter(self):
         Player()
         Ball()
         DamageZone()
 
         self.level_manager.set_level("001_level.json")
         self.level_manager.start()
+
+    def exit(self):
+        self.level_manager.stop()
 
     def _handle_event(self, event: pygame.event.Event) -> None:
         if event.type == SPAWN_BALL:

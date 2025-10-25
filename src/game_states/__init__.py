@@ -1,12 +1,20 @@
 from abc import ABC, abstractmethod
+from enum import Enum, auto
 from typing import Callable
 
 import pygame
 
 
+class GameStateID(Enum):
+    MAIN_MENU = auto()
+    PLAYING = auto()
+    GAME_OVER = auto()
+    LEVEL_UP = auto()
+    PAUSE = auto()
+
+
 class GameState(ABC):
-    def __init__(self, stop_game: Callable[[], None]):
-        self.stop_game: Callable[[], None] = stop_game
+    stop_game: Callable[[], None]
 
     def handle_events(self) -> None:
         for event in pygame.event.get():
@@ -31,3 +39,32 @@ class GameState(ABC):
     @abstractmethod
     def _draw(self, screen: pygame.Surface) -> None:
         pass
+
+    @abstractmethod
+    def enter(self) -> None:
+        pass
+
+    @abstractmethod
+    def exit(self) -> None:
+        pass
+
+
+class GameStateMachine:
+    def __init__(self, states: dict[GameStateID, GameState], init_state: GameStateID):
+        self.states: dict[GameStateID, GameState] = states
+        self.current_state: GameState = states[init_state]
+        self.current_state.enter()
+
+    def change_state(self, new_state_id: GameStateID):
+        self.current_state.exit()
+        self.current_state = self.states[new_state_id]
+        self.current_state.enter()
+
+    def handle_events(self):
+        self.current_state.handle_events()
+
+    def update(self, delta):
+        self.current_state.update(delta)
+
+    def draw(self, screen):
+        self.current_state.draw(screen)

@@ -3,7 +3,24 @@ import time
 import pygame
 
 from config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
+from game_states import GameState, GameStateID, GameStateMachine
+from game_states.game_over import GameOver
+from game_states.level_up import LevelUp
+from game_states.main_menu import MainMenu
+from game_states.pause import Pause
 from game_states.playing import Playing
+
+
+def create_game_state_machine(stop_game) -> GameStateMachine:
+    GameState.stop_game = stop_game
+    states = {
+        GameStateID.MAIN_MENU: MainMenu(),
+        GameStateID.PLAYING: Playing(),
+        GameStateID.GAME_OVER: GameOver(),
+        GameStateID.PAUSE: Pause(),
+        GameStateID.LEVEL_UP: LevelUp(),
+    }
+    return GameStateMachine(states, GameStateID.PLAYING)
 
 
 class Game:
@@ -12,7 +29,7 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = False
-        self.state = Playing(self.stop)
+        self.game_state_machine = create_game_state_machine(self.stop)
 
     def run(self) -> None:
         frame_count = sum_handle = sum_update = sum_draw = 0
@@ -24,11 +41,11 @@ class Game:
             frame_count += 1
 
             t0 = time.perf_counter()
-            self.state.handle_events()
+            self.game_state_machine.handle_events()
             t1 = time.perf_counter()
-            self.state.update(delta)
+            self.game_state_machine.update(delta)
             t2 = time.perf_counter()
-            self.state.draw(self.screen)
+            self.game_state_machine.draw(self.screen)
             t3 = time.perf_counter()
 
             sum_handle += t1 - t0
