@@ -4,6 +4,7 @@ from config import (
     DEATH,
     EXP_BASE,
     EXP_GROWTH,
+    LEVEL_UP,
     PLAYER_HEIGHT,
     PLAYER_SPEED,
     PLAYER_WIDTH,
@@ -55,3 +56,4 @@ class Player(GameObject):
         if self.exp >= self.exp_to_next:
             self.exp_to_next = int(EXP_BASE * EXP_GROWTH**self.level)
             self.level += 1
+            pygame.event.post(pygame.event.Event(LEVEL_UP, {"level": self.level}))

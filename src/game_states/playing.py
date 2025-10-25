@@ -1,6 +1,6 @@
 import pygame
 
-from config import DEATH, SPAWN_BALL
+from config import DEATH, LEVEL_UP, SPAWN_BALL
 from game_elements.ball import Ball
 from game_elements.block import Block
 from game_elements.player import Player
@@ -43,6 +43,8 @@ class Playing(GameState):
             Ball()
         elif event.type == DEATH:
             print("!!!DEATH!!!")
+        elif event.type == LEVEL_UP:
+            print("!!!LEVEL_UP!!!")
 
     def update(self, delta: int) -> None:
         self.updatable.update(delta)
