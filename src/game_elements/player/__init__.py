@@ -2,6 +2,8 @@ import pygame
 
 from config import (
     DEATH,
+    EXP_BASE,
+    EXP_GROWTH,
     PLAYER_HEIGHT,
     PLAYER_SPEED,
     PLAYER_WIDTH,
@@ -9,7 +11,6 @@ from config import (
     SCREEN_WIDTH,
 )
 from game_elements import GameObject
-from game_elements.player.damage_zone import DamageZone
 
 
 class Player(GameObject):
@@ -20,9 +21,10 @@ class Player(GameObject):
             pos=pygame.Vector2((SCREEN_WIDTH - PLAYER_WIDTH) // 2, SCREEN_HEIGHT - 50),
             vel=pygame.Vector2(PLAYER_SPEED, 0),
         )
-        self.damage_zone = DamageZone(self.apply_damage)
         self.hp = 20
+        self.level = 1
         self.exp = 0
+        self.exp_to_next = EXP_BASE
 
     def update(self, delta):
         direction = 0
@@ -47,3 +49,9 @@ class Player(GameObject):
         self.hp -= damage
         if self.hp <= 0:
             pygame.event.post(pygame.event.Event(DEATH))
+
+    def add_exp(self, exp) -> None:
+        self.exp += exp
+        if self.exp >= self.exp_to_next:
+            self.exp_to_next = int(EXP_BASE * EXP_GROWTH**self.level)
+            self.level += 1

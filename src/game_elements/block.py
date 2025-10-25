@@ -5,7 +5,7 @@ from game_elements import GameObject
 
 
 class Block(GameObject):
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, exp=10):
         super().__init__(
             width=BLOCK_WIDTH,
             height=BLOCK_HEIGHT,
@@ -13,6 +13,7 @@ class Block(GameObject):
             color=pygame.Color("red"),
         )
         self.rect.topleft = self.pos
+        self.exp = exp
 
     def update(self, delta):
         pass

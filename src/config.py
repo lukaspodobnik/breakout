@@ -12,6 +12,8 @@ ASSETS_DIR = get_resource_path("assets")
 LEVELS_DIR = get_resource_path(ASSETS_DIR / "levels")
 SOUNDS_DIR = get_resource_path(ASSETS_DIR / "sounds")
 
+EXP_BASE = 100
+EXP_GROWTH = 1.5
 PLAYER_SPEED = 400
 PLAYER_WIDTH = 80
 PLAYER_HEIGHT = 8
@@ -26,5 +28,5 @@ BLOCK_SPACING = 5
 
 DAMAGE_ZONE_HEIGHT = 10
 
-RESPAWN_BALL = pygame.USEREVENT + 1
-DEATH = RESPAWN_BALL + 1
+SPAWN_BALL = pygame.USEREVENT + 1
+DEATH = SPAWN_BALL + 1

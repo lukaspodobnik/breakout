@@ -1,6 +1,6 @@
 import pygame
 
-from config import DEATH, RESPAWN_BALL
+from config import DEATH, SPAWN_BALL
 from game_elements.ball import Ball
 from game_elements.block import Block
 from game_elements.player import Player
@@ -33,11 +33,13 @@ class Playing(GameState):
 
         Player()
         Ball()
+        DamageZone()
+
         self.level_manager.set_level("001_level.json")
         self.level_manager.start()
 
     def _handle_event(self, event: pygame.event.Event) -> None:
-        if event.type == RESPAWN_BALL:
+        if event.type == SPAWN_BALL:
             Ball()
         elif event.type == DEATH:
             print("!!!DEATH!!!")

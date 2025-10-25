@@ -4,9 +4,9 @@ from config import (
     BALL_SIZE,
     BALL_SPEED,
     MAX_ANGLE,
-    RESPAWN_BALL,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
+    SPAWN_BALL,
 )
 from game_elements import DamageSource, GameObject
 
@@ -61,5 +61,5 @@ class Ball(GameObject, DamageSource):
         self.sounds["block_collision"].play()
 
     def get_damage(self) -> int:
-        pygame.time.set_timer(pygame.event.Event(RESPAWN_BALL), 2000, loops=1)
+        pygame.time.set_timer(pygame.event.Event(SPAWN_BALL), 2000, loops=1)
         return self.damage

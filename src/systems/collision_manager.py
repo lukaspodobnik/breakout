@@ -34,11 +34,11 @@ class CollisionManager:
         for ball, blocks in collisions.items():
             for block in blocks:
                 ball.bounce_from_block(block.rect)
+                self.player.sprite.add_exp(block.exp)
 
     def _handle_damage_zone_source(self):
-        damage_zone = self.damage_zone.sprite
         collisions: list[DamageSource] = pygame.sprite.spritecollide(
-            damage_zone, self.damage_sources, True
+            self.damage_zone.sprite, self.damage_sources, True
         )
         for source in collisions:
-            damage_zone.apply_damage(source.get_damage())
+            self.player.sprite.apply_damage(source.get_damage())
