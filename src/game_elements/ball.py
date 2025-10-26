@@ -9,11 +9,11 @@ from config import (
     SPAWN_BALL,
 )
 from game_elements import DamageSource, GameObject
+from services import Services
+from services.sound_manager import SoundID
 
 
 class Ball(GameObject, DamageSource):
-    sounds: dict[str, pygame.mixer.Sound] = {}
-
     def __init__(self):
         super().__init__(
             width=BALL_SIZE,
@@ -58,7 +58,7 @@ class Ball(GameObject, DamageSource):
             self.vel.y *= -1
             self.rect.top = rect.bottom
 
-        self.sounds["block_collision"].play()
+        Services.sound_manager.play(SoundID.BALL_BLOCK_COLLISION)
 
     def get_damage(self) -> int:
         pygame.time.set_timer(pygame.event.Event(SPAWN_BALL), 2000, loops=1)
