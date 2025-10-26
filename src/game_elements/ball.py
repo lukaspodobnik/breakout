@@ -1,8 +1,9 @@
 import pygame
 
 from config import (
+    BALL_ACCELERATION,
+    BALL_MAX_SPEED,
     BALL_SIZE,
-    BALL_SPEED,
     HUD_HEIGHT,
     MAX_ANGLE,
     SCREEN_HEIGHT,
@@ -20,13 +21,20 @@ class Ball(GameObject, DamageSource):
             width=BALL_SIZE,
             height=BALL_SIZE,
             pos=pygame.Vector2((SCREEN_WIDTH - BALL_SIZE) // 2, SCREEN_HEIGHT // 2),
-            vel=pygame.Vector2(0, BALL_SPEED),
+            vel=pygame.Vector2(0, 0),
         )
         self.prev_rect = self.rect.copy()
         self.damage = 10
+        self.spawning = True
 
     def update(self, delta):
         self.prev_rect = self.rect.copy()
+
+        if self.spawning:
+            self.vel.y += BALL_ACCELERATION * delta
+            if self.vel.y >= BALL_MAX_SPEED:
+                self.vel.y = BALL_MAX_SPEED
+                self.spawning = False
 
         self.pos += self.vel * delta
         self.rect.topleft = self.pos

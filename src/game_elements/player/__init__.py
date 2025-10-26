@@ -3,8 +3,10 @@ import pygame
 from config import (
     EXP_BASE,
     EXP_GROWTH,
+    PLAYER_ACCELERATION,
+    PLAYER_FRICTION,
     PLAYER_HEIGHT,
-    PLAYER_SPEED,
+    PLAYER_MAX_SPEED,
     PLAYER_WIDTH,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -20,7 +22,7 @@ class Player(GameObject):
             width=PLAYER_WIDTH,
             height=PLAYER_HEIGHT,
             pos=pygame.Vector2((SCREEN_WIDTH - PLAYER_WIDTH) // 2, SCREEN_HEIGHT - 50),
-            vel=pygame.Vector2(PLAYER_SPEED, 0),
+            vel=pygame.Vector2(0, 0),
         )
         self.hp = 100
         self.max_hp = 100
@@ -31,17 +33,29 @@ class Player(GameObject):
     def update(self, delta):
         direction = 0
         pressed = pygame.key.get_pressed()
-
         if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
             direction -= 1
         if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
             direction += 1
 
-        self.pos += self.vel * direction * delta
-        self.clamp()
+        if direction == 0:
+            if self.vel.x > 0:
+                self.vel.x -= PLAYER_FRICTION * delta
+                if self.vel.x < 0:
+                    self.vel.x = 0
+            elif self.vel.x < 0:
+                self.vel.x += PLAYER_FRICTION * delta
+                if self.vel.x > 0:
+                    self.vel.x = 0
+        else:
+            self.vel.x += direction * PLAYER_ACCELERATION * delta
+            self.vel.x = max(-PLAYER_MAX_SPEED, min(self.vel.x, PLAYER_MAX_SPEED))
+
+        self.pos += self.vel * delta
+        self._clamp()
         self.rect.topleft = self.pos
 
-    def clamp(self):
+    def _clamp(self):
         if self.pos.x < 0:
             self.pos.x = 0
         elif self.pos.x > SCREEN_WIDTH - self.rect.width:
