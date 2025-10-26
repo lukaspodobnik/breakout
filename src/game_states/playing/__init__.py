@@ -1,11 +1,11 @@
 import pygame
 
+from config import DEATH, LEVEL_UP, SPAWN_BALL
 from game_elements.ball import Ball
 from game_elements.block import Block
 from game_elements.player import Player
 from game_elements.player.damage_zone import DamageZone
 from game_states import GameState
-from config import DEATH, LEVEL_UP, SPAWN_BALL
 from game_states.playing.collision_manager import CollisionManager
 from game_states.playing.level_manager import LevelManager
 from ui.playing import PlayingUI

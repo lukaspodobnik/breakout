@@ -1,7 +1,7 @@
 import json
 
-from services.config import LEVELS_DIR
-from systems.spawner import Spawner
+from config import LEVELS_DIR
+from game_states.playing.spawner import Spawner
 
 
 class LevelManager:

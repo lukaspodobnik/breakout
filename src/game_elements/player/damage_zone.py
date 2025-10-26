@@ -1,6 +1,6 @@
 import pygame
 
-from services.config import DAMAGE_ZONE_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH
+from config import DAMAGE_ZONE_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH
 
 
 class DamageZone(pygame.sprite.Sprite):

@@ -4,6 +4,9 @@ from typing import Any, Callable
 
 class GameEvent(Enum):
     PLAYER_HEALTH_CHANGED = auto()
+    PLAYER_EXP_CHANGED = auto()
+    PLAYER_DEATH = auto()
+    BALL_SPAWN = auto()
 
 
 class EventBus:

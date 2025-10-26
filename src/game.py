@@ -1,8 +1,9 @@
 import time
 
 import pygame
+import pygame_gui
 
-from services.config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
+from config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
 from game_states import GameState, GameStateID, GameStateMachine
 from game_states.game_over import GameOver
 from game_states.level_up import LevelUp
@@ -11,8 +12,9 @@ from game_states.pause import Pause
 from game_states.playing import Playing
 
 
-def create_game_state_machine(stop_game) -> GameStateMachine:
+def _create_game_state_machine(stop_game) -> GameStateMachine:
     GameState.stop_game = stop_game
+    GameState.ui_manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
     states = {
         GameStateID.MAIN_MENU: MainMenu(),
         GameStateID.PLAYING: Playing(),
@@ -29,7 +31,7 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = False
-        self.game_state_machine = create_game_state_machine(self.stop)
+        self.game_state_machine = _create_game_state_machine(self.stop)
 
     def run(self) -> None:
         frame_count = sum_handle = sum_update = sum_draw = 0

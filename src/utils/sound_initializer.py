@@ -1,6 +1,6 @@
 from pygame.mixer import Sound
 
-from services.config import SOUNDS_DIR
+from config import SOUNDS_DIR
 from game_elements.ball import Ball
 
 

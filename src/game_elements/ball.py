@@ -1,6 +1,6 @@
 import pygame
 
-from services.config import (
+from config import (
     BALL_SIZE,
     BALL_SPEED,
     MAX_ANGLE,

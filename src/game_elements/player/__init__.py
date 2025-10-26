@@ -1,6 +1,6 @@
 import pygame
 
-from services.config import (
+from config import (
     DEATH,
     EXP_BASE,
     EXP_GROWTH,

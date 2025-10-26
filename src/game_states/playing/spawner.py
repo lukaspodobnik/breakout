@@ -1,6 +1,6 @@
 from typing import Callable
 
-from systems.block_structures import line_1x10, square_3x3
+from game_states.playing.block_structures import line_1x10, square_3x3
 
 
 class Spawner:
