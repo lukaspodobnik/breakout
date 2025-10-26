@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Callable
 
 import pygame
 import pygame_gui
@@ -19,7 +18,6 @@ class GameStateID(Enum):
 
 
 class GameState(ABC):
-    stop_game: Callable[[], None]
     ui_manager: pygame_gui.UIManager
 
     def __init__(self, ui):
@@ -28,7 +26,7 @@ class GameState(ABC):
     def handle_events(self) -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.stop_game()
+                Services.event_bus.emit(GameEvent.STOP_GAME)
             else:
                 self._handle_event(event)
 
@@ -77,22 +75,27 @@ class GameStateMachine:
     def __init__(self, states: dict[GameStateID, GameState], init_state: GameStateID):
         self.states: dict[GameStateID, GameState] = states
         self.current_state: GameState = states[init_state]
-        self.current_state._enter()
+        self.current_state.enter()
 
         Services.event_bus.subscribe(
             GameEvent.PLAYER_DEATH,
-            lambda **kwargs: self.change_state(GameStateID.GAME_OVER),
+            lambda **kwargs: self._change_state(GameStateID.GAME_OVER),
         )
 
         Services.event_bus.subscribe(
             GameEvent.PLAYER_LEVEL_UP,
-            lambda **kwargs: self.change_state(GameStateID.LEVEL_UP),
+            lambda **kwargs: self._change_state(GameStateID.LEVEL_UP),
         )
 
-    def change_state(self, new_state_id: GameStateID):
-        self.current_state._exit()
+        Services.event_bus.subscribe(
+            GameEvent.START_GAME,
+            lambda **kwargs: self._change_state(GameStateID.PLAYING),
+        )
+
+    def _change_state(self, new_state_id: GameStateID):
+        self.current_state.exit()
         self.current_state = self.states[new_state_id]
-        self.current_state._enter()
+        self.current_state.enter()
 
     def handle_events(self):
         self.current_state.handle_events()

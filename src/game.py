@@ -10,10 +10,11 @@ from game_states.level_up import LevelUp
 from game_states.main_menu import MainMenu
 from game_states.pause import Pause
 from game_states.playing import Playing
+from services import Services
+from services.game_events import GameEvent
 
 
-def _create_game_state_machine(stop_game) -> GameStateMachine:
-    GameState.stop_game = stop_game
+def _create_game_state_machine() -> GameStateMachine:
     GameState.ui_manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
     states = {
         GameStateID.MAIN_MENU: MainMenu(),
@@ -22,7 +23,7 @@ def _create_game_state_machine(stop_game) -> GameStateMachine:
         GameStateID.PAUSE: Pause(),
         GameStateID.LEVEL_UP: LevelUp(),
     }
-    return GameStateMachine(states, GameStateID.PLAYING)
+    return GameStateMachine(states, GameStateID.MAIN_MENU)
 
 
 class Game:
@@ -31,7 +32,9 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = False
-        self.game_state_machine = _create_game_state_machine(self.stop)
+        self.game_state_machine = _create_game_state_machine()
+
+        Services.event_bus.subscribe(GameEvent.STOP_GAME, self._stop)
 
     def run(self) -> None:
         frame_count = sum_handle = sum_update = sum_draw = 0
@@ -66,5 +69,5 @@ class Game:
 
         pygame.quit()
 
-    def stop(self) -> None:
+    def _stop(self) -> None:
         self.running = False
