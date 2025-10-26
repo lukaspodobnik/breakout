@@ -84,6 +84,11 @@ class GameStateMachine:
             lambda **kwargs: self.change_state(GameStateID.GAME_OVER),
         )
 
+        Services.event_bus.subscribe(
+            GameEvent.PLAYER_LEVEL_UP,
+            lambda **kwargs: self.change_state(GameStateID.LEVEL_UP),
+        )
+
     def change_state(self, new_state_id: GameStateID):
         self.current_state._exit()
         self.current_state = self.states[new_state_id]

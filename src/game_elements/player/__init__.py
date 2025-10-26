@@ -56,4 +56,4 @@ class Player(GameObject):
         if self.exp >= self.exp_to_next:
             self.exp_to_next = int(EXP_BASE * EXP_GROWTH**self.level)
             self.level += 1
-            Services.event_bus.emit(GameEvent.PLAYER_LEVEL_UP, {"level": self.level})
+            Services.event_bus.emit(GameEvent.PLAYER_LEVEL_UP, level=self.level)
