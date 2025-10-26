@@ -9,7 +9,7 @@ from config import (
 )
 from game_elements import DamageSource, GameObject
 from services import Services
-from services.event_bus import GameEvent
+from services.game_events import GameEvent
 from services.sound_manager import SoundID
 
 
@@ -61,6 +61,5 @@ class Ball(GameObject, DamageSource):
         Services.sound_manager.play(SoundID.BALL_BLOCK_COLLISION)
 
     def get_damage(self) -> int:
-        # pygame.time.set_timer(pygame.event.Event(SPAWN_BALL), 2000, loops=1)
         Services.event_bus.emit(GameEvent.BALL_SPAWN)
         return self.damage

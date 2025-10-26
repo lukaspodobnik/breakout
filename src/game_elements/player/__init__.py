@@ -1,10 +1,8 @@
 import pygame
 
 from config import (
-    DEATH,
     EXP_BASE,
     EXP_GROWTH,
-    LEVEL_UP,
     PLAYER_HEIGHT,
     PLAYER_SPEED,
     PLAYER_WIDTH,
@@ -12,6 +10,8 @@ from config import (
     SCREEN_WIDTH,
 )
 from game_elements import GameObject
+from services import Services
+from services.game_events import GameEvent
 
 
 class Player(GameObject):
@@ -49,11 +49,11 @@ class Player(GameObject):
     def apply_damage(self, damage: int) -> None:
         self.hp -= damage
         if self.hp <= 0:
-            pygame.event.post(pygame.event.Event(DEATH))
+            Services.event_bus.emit(GameEvent.PLAYER_DEATH)
 
     def add_exp(self, exp) -> None:
         self.exp += exp
         if self.exp >= self.exp_to_next:
             self.exp_to_next = int(EXP_BASE * EXP_GROWTH**self.level)
             self.level += 1
-            pygame.event.post(pygame.event.Event(LEVEL_UP, {"level": self.level}))
+            Services.event_bus.emit(GameEvent.PLAYER_LEVEL_UP, {"level": self.level})

@@ -1,6 +1,5 @@
 import pygame
 
-from config import DEATH, LEVEL_UP, SPAWN_BALL
 from game_elements.ball import Ball
 from game_elements.block import Block
 from game_elements.player import Player
@@ -9,7 +8,7 @@ from game_states import GameState
 from game_states.playing.collision_manager import CollisionManager
 from game_states.playing.level_manager import LevelManager
 from services import Services
-from services.event_bus import GameEvent
+from services.game_events import GameEvent
 from ui.playing import PlayingUI
 
 
@@ -49,12 +48,7 @@ class Playing(GameState):
         self.level_manager.stop()
 
     def _handle_event(self, event: pygame.event.Event) -> None:
-        if event.type == SPAWN_BALL:
-            Ball()
-        elif event.type == DEATH:
-            print("!!!DEATH!!!")
-        elif event.type == LEVEL_UP:
-            print("!!!LEVEL_UP!!!")
+        pass
 
     def _update(self, delta) -> None:
         self.level_manager.update(delta)

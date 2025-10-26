@@ -5,6 +5,8 @@ from typing import Callable
 import pygame
 import pygame_gui
 
+from services import Services
+from services.game_events import GameEvent
 from ui import UserInterface
 
 
@@ -76,6 +78,11 @@ class GameStateMachine:
         self.states: dict[GameStateID, GameState] = states
         self.current_state: GameState = states[init_state]
         self.current_state._enter()
+
+        Services.event_bus.subscribe(
+            GameEvent.PLAYER_DEATH,
+            lambda **kwargs: self.change_state(GameStateID.GAME_OVER),
+        )
 
     def change_state(self, new_state_id: GameStateID):
         self.current_state._exit()

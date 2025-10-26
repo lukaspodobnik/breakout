@@ -1,5 +1,3 @@
-import pygame
-
 from utils.resource_path import get_resource_path
 
 TITLE = "Breakout"
@@ -27,7 +25,3 @@ BLOCK_HEIGHT = 25
 BLOCK_SPACING = 5
 
 DAMAGE_ZONE_HEIGHT = 10
-
-SPAWN_BALL = pygame.USEREVENT + 1
-DEATH = SPAWN_BALL + 1
-LEVEL_UP = DEATH + 1

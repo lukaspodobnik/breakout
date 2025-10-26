@@ -7,7 +7,7 @@ class GameOver(GameState):
         super().__init__(GameOverUI(self.ui_manager))
 
     def _enter(self):
-        pass
+        print("GameOver entered!")
 
     def _exit(self):
         pass
