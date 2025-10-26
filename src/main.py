@@ -2,13 +2,11 @@ import pygame
 
 from game import Game
 from services import Services
-from utils.sound_initializer import load_sounds
 
 
 def main():
     pygame.init()
     Services.init()
-    load_sounds()
     Game().run()
 
 

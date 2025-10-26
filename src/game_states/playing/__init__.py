@@ -8,6 +8,8 @@ from game_elements.player.damage_zone import DamageZone
 from game_states import GameState
 from game_states.playing.collision_manager import CollisionManager
 from game_states.playing.level_manager import LevelManager
+from services import Services
+from services.event_bus import GameEvent
 from ui.playing import PlayingUI
 
 
@@ -33,6 +35,8 @@ class Playing(GameState):
         Block.groups = (self.updatable, self.drawable, self.blocks)
         DamageZone.groups = (self.damage_zone,)
 
+        Services.event_bus.subscribe(GameEvent.BALL_SPAWN, Ball)
+
     def _enter(self):
         Player()
         Ball()
@@ -53,9 +57,9 @@ class Playing(GameState):
             print("!!!LEVEL_UP!!!")
 
     def _update(self, delta) -> None:
+        self.level_manager.update(delta)
         self.updatable.update(delta)
         self.collision_manager.update()
-        self.level_manager.update(delta)
 
     def _draw(self, screen: pygame.Surface) -> None:
         self.drawable.draw(screen)
