@@ -3,6 +3,7 @@ import pygame
 from config import (
     BALL_SIZE,
     BALL_SPEED,
+    HUD_HEIGHT,
     MAX_ANGLE,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -32,7 +33,7 @@ class Ball(GameObject, DamageSource):
 
         if self.pos.x < 0 or self.pos.x > SCREEN_WIDTH - self.rect.width:
             self.vel.x *= -1
-        if self.pos.y < 0:
+        if self.pos.y < HUD_HEIGHT:
             self.vel.y *= -1
 
     def bounce_from_player(self, rect: pygame.Rect):

@@ -22,7 +22,8 @@ class Player(GameObject):
             pos=pygame.Vector2((SCREEN_WIDTH - PLAYER_WIDTH) // 2, SCREEN_HEIGHT - 50),
             vel=pygame.Vector2(PLAYER_SPEED, 0),
         )
-        self.hp = 20
+        self.hp = 100
+        self.max_hp = 100
         self.level = 1
         self.exp = 0
         self.exp_to_next = EXP_BASE
@@ -47,13 +48,18 @@ class Player(GameObject):
             self.pos.x = SCREEN_WIDTH - self.rect.width
 
     def apply_damage(self, damage: int) -> None:
+        bus = Services.event_bus
         self.hp -= damage
         if self.hp <= 0:
-            Services.event_bus.emit(GameEvent.PLAYER_DEATH)
+            bus.emit(GameEvent.PLAYER_DEATH)
+            return
+        bus.emit(GameEvent.PLAYER_HEALTH_CHANGED, hp=(self.hp / self.max_hp) * 100)
 
     def add_exp(self, exp) -> None:
+        bus = Services.event_bus
         self.exp += exp
         if self.exp >= self.exp_to_next:
             self.exp_to_next = int(EXP_BASE * EXP_GROWTH**self.level)
             self.level += 1
-            Services.event_bus.emit(GameEvent.PLAYER_LEVEL_UP, level=self.level)
+            bus.emit(GameEvent.PLAYER_LEVEL_UP, level=self.level)
+        bus.emit(GameEvent.PLAYER_EXP_CHANGED, exp=(self.exp / self.exp_to_next) * 100)

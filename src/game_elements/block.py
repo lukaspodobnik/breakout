@@ -5,7 +5,7 @@ from game_elements import GameObject
 
 
 class Block(GameObject):
-    def __init__(self, pos_x, pos_y, exp=40):
+    def __init__(self, pos_x, pos_y, exp=10):
         super().__init__(
             width=BLOCK_WIDTH,
             height=BLOCK_HEIGHT,
