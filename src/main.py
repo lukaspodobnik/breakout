@@ -1,11 +1,15 @@
 import pygame
+import pygame_gui
 
 from game import Game
+from game_states import GameState
+from services.config import SCREEN_HEIGHT, SCREEN_WIDTH
 from utils.sound_initializer import load_sounds
 
 
 def main():
     pygame.init()
+    GameState.ui_manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
     load_sounds()
     Game().run()
 

@@ -1,7 +1,11 @@
 from game_states import GameState
+from ui.main_menu import MainMenuUI
 
 
 class MainMenu(GameState):
+    def __init__(self):
+        super().__init__(MainMenuUI(self.ui_manager))
+
     def _enter(self):
         pass
 
@@ -14,5 +18,5 @@ class MainMenu(GameState):
     def _update(self, delta):
         pass
 
-    def draw(self, screen):
+    def _draw(self, screen):
         pass

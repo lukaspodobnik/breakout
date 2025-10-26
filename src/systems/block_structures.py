@@ -1,4 +1,4 @@
-from config import BLOCK_HEIGHT, BLOCK_SPACING, BLOCK_WIDTH
+from services.config import BLOCK_HEIGHT, BLOCK_SPACING, BLOCK_WIDTH
 from game_elements.block import Block
 
 

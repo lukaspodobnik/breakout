@@ -5,7 +5,6 @@ from typing import Callable
 import pygame
 import pygame_gui
 
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
 from ui import UserInterface
 
 
@@ -19,7 +18,7 @@ class GameStateID(Enum):
 
 class GameState(ABC):
     stop_game: Callable[[], None]
-    ui_manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
+    ui_manager: pygame_gui.UIManager
 
     def __init__(self, ui):
         self.ui: UserInterface = ui

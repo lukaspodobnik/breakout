@@ -1,6 +1,6 @@
 import pygame
 
-from config import BLOCK_HEIGHT, BLOCK_WIDTH
+from services.config import BLOCK_HEIGHT, BLOCK_WIDTH
 from game_elements import GameObject
 
 

@@ -1,6 +1,6 @@
 import json
 
-from config import LEVELS_DIR
+from services.config import LEVELS_DIR
 from systems.spawner import Spawner
 
 

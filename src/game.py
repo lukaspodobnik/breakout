@@ -2,7 +2,7 @@ import time
 
 import pygame
 
-from config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
+from services.config import FPS, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE
 from game_states import GameState, GameStateID, GameStateMachine
 from game_states.game_over import GameOver
 from game_states.level_up import LevelUp

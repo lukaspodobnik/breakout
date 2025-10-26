@@ -1,7 +1,11 @@
 from game_states import GameState
+from ui.game_over import GameOverUI
 
 
 class GameOver(GameState):
+    def __init__(self):
+        super().__init__(GameOverUI(self.ui_manager))
+
     def _enter(self):
         pass
 
@@ -14,5 +18,5 @@ class GameOver(GameState):
     def _update(self, delta):
         pass
 
-    def draw(self, screen):
+    def _draw(self, screen):
         pass

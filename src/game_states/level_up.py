@@ -1,7 +1,11 @@
 from game_states import GameState
+from ui.level_up import LevelUpUI
 
 
 class LevelUp(GameState):
+    def __init__(self):
+        super().__init__(LevelUpUI(self.ui_manager))
+
     def _enter(self):
         pass
 
@@ -14,5 +18,5 @@ class LevelUp(GameState):
     def _update(self, delta):
         pass
 
-    def draw(self, screen):
+    def _draw(self, screen):
         pass
