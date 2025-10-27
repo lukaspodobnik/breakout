@@ -8,6 +8,8 @@ from config import SOUNDS_DIR
 
 class SoundID(Enum):
     BALL_BLOCK_COLLISION = auto()
+    BALL_PLAYER_COLLISION = auto()
+    BALL_WALL_COLLISION = auto()
 
 
 class SoundManager:
@@ -19,7 +21,13 @@ class SoundManager:
         self.sounds = {
             SoundID.BALL_BLOCK_COLLISION: Sound(
                 str(SOUNDS_DIR / "ball_block_collision.wav")
-            )
+            ),
+            SoundID.BALL_PLAYER_COLLISION: Sound(
+                str(SOUNDS_DIR / "ball_player_collision.wav")
+            ),
+            SoundID.BALL_WALL_COLLISION: Sound(
+                str(SOUNDS_DIR / "ball_wall_collision.wav")
+            ),
         }
 
     def play(self, id: SoundID) -> None:

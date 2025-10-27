@@ -1,8 +1,6 @@
 {
   "name": "Level 1",
   "events": [
-    { "time": 0, "structure": "line_1x10", "position": [50, 100] },
-    { "time": 5, "structure": "square_3x3", "position": [200, 150] },
-    { "time": 12, "structure": "line_1x10", "position": [50, 200] }
+    { "time": 0, "structure": "line_1x10", "position": [50, 100] }
   ]
 }

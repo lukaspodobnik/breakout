@@ -8,6 +8,7 @@ from config import (
     MAX_ANGLE,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
+    SPEED_INCREASE_FACTOR,
 )
 from game_elements import DamageSource, GameObject
 from services import Services
@@ -37,18 +38,27 @@ class Ball(GameObject, DamageSource):
                 self.spawning = False
 
         self.pos += self.vel * delta
-        self.rect.topleft = self.pos
 
         if self.pos.x < 0 or self.pos.x > SCREEN_WIDTH - self.rect.width:
             self.vel.x *= -1
+            Services.sound_manager.play(SoundID.BALL_WALL_COLLISION)
+
         if self.pos.y < HUD_HEIGHT:
+            self.pos.y = HUD_HEIGHT
             self.vel.y *= -1
+            Services.sound_manager.play(SoundID.BALL_WALL_COLLISION)
+
+        self.rect.topleft = self.pos
 
     def bounce_from_player(self, rect: pygame.Rect):
+        self.rect.bottom = rect.top
+        self.pos.y = self.rect.top
         offset = self.rect.centerx - rect.centerx
         direction_x = offset / (rect.width // 2)
         self.vel.x = direction_x * MAX_ANGLE
-        self.vel.y *= -1
+        self.vel.y *= -SPEED_INCREASE_FACTOR
+
+        Services.sound_manager.play(SoundID.BALL_PLAYER_COLLISION)
 
     def bounce_from_block(self, rect: pygame.Rect):
         if self.prev_rect.right <= rect.left and self.rect.right > rect.left:
